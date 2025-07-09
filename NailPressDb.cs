@@ -2,8 +2,16 @@ using Microsoft.EntityFrameworkCore;
 
 class NailPressDb : DbContext
 {
-    public TodoDb(DbContextOptions<TodoDb> options)
+    public NailPressDb(DbContextOptions<NailPressDb> options)
         : base(options) { }
 
-    public DbSet<Todo> Todos => Set<Todo>();
+    public DbSet<Listing> Listings => Set<Listing>();
+    public DbSet<Customer> Customers => Set<Customer>();
+
+    // Configure relationships and constraints here if needed and can't go in entity classes.
+    // protected override void OnModelCreating(ModelBuilder modelBuilder)
+    // {
+
+    // }
+
 }
