@@ -4,6 +4,7 @@ using HotChocolate;
 using NailPressApi.Data; 
 using NailPressApi.GraphQL.Queries; 
 using NailPressApi.GraphQL.Mutations; 
+using NailPressApi.GraphQL.Types; 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,11 @@ builder.Services.AddDbContext<NailPressDb>(options =>
 builder.Services
     .AddGraphQLServer()
     .AddQueryType<Query>()
-    .AddMutationType<Mutation>();
+    .AddMutationType<Mutation>()
+    .AddFiltering()
+    .AddSorting()
+    .AddProjections()
+    .AddType<ListingType>();
 
 // Add CORS policy (allow requests from Next.js dev/prod URLs)
 builder.Services.AddCors(options =>
@@ -32,10 +37,8 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Enable CORS middleware
 app.UseCors("AllowNextJS");
-
+app.UseRouting();
 app.MapGet("/", () => "Hello World!");
 app.MapGraphQL();
-
 app.Run();
